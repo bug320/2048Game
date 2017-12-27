@@ -1,33 +1,22 @@
 # -*- coding:utf-8 -*-
 import curses
 
+class ExitException(Exception):
+    pass
 
-class Frame(object):
-    def __init__(self, x, y, w, h):
-        self.stdscr=curses.initstr()
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-        pass
+def curses_main(stdscr):
+    stdscr.addstr("Hello world")
+    screen = curses.newwin(30,30,1,10)
+    screen.addstr("New screen")
+    stdscr.refresh()
+    screen.refresh()
+    while True:
+        if stdscr.getch() == ord('q'):
+            raise ExitException("Deault quiting")
 
-    def init(self):
-        self.stdscr = curses.newwin()1
-        pass
+            pass
+    pass
 
-    def load(self):
-        pass
-
-    def handle_event(self):
-        pass
-
-    def update(self):
-        pass
-
-    def render(self):
-        pass
-
-    def close(self):
-        pass
-
+if __name__ == '__main__':
+    curses.wrapper(curses_main)
     pass
