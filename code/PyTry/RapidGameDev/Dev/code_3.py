@@ -59,4 +59,7 @@ while 1:
     car_group.update(deltat)
     car_group.draw(screen)
     pygame.display.flip()
+
+
+
     pass
