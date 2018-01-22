@@ -12,7 +12,6 @@ class PyClass():
     clock = py.time.Clock()
     def __init__(self):
         py.init()
-
         pass
 
     def init(self, w, h, title):

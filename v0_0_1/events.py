@@ -5,6 +5,7 @@ from pygame import *
 from const_var import *
 
 
+
 class Singletion(object):
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, '_instance'):
@@ -12,7 +13,7 @@ class Singletion(object):
             cls._instance = org.__new__(cls, *args, **kwargs)
         return cls._instance
     pass
-Singletion
+
 
 class Events(Singletion):
     def listener(self):
