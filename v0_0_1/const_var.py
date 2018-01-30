@@ -28,6 +28,18 @@ TL_bg = (0,0)
 IMG_center = "img/center.png"   #  中心显示区域
 TL_center = (46,37)
 
+# 技能
+ACTION_BIG_DEAD = 0xA001      # 销毁大数
+IMG_BIG_DEAD = "img/bigDeadAction.png"
+ACTION_RANDOM_NUM = 0xA002    # 随机变化
+IMG_RANDOM_NUM = "img/randomAciton.png"
+ACTION_BIG_DOWN = 0xA003      # 大数下移
+IMG_BIG_DOWN = "img/bigDownAction.png"
+
+IMG_USER = "img/user.png"  # 用户头像
+
+
+
 # 模块索引
 MODEL_WEB = 0xF001  # 联网对抗模块
 MODEL_LOCAL = 0xF002  # 离线练习

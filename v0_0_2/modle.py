@@ -11,6 +11,7 @@ AREA = "AREA"
 COLOR = "COLOR"
 TEXT = "TEXT"
 FIRE = "FIRE"
+
 models = {
     MODEL_WEB: {
         AREA:(47,197,122,76),
@@ -61,6 +62,8 @@ models = {
         FIRE: None
     }  # 退出按钮
 }
+
+
 
 class Button(py.sprite.Sprite):
     def __init__(self,model):
@@ -128,8 +131,9 @@ class Button(py.sprite.Sprite):
     pass
 
 
-class WebModle(MySprite):
-    def __init__(self,):
+class FirstPage(MySprite):
+    def __init__(self):
+        MySprite.__init__(self)
         self.btns = [Button(model) for model in models]
         pass
     def update(self):
@@ -140,22 +144,86 @@ class WebModle(MySprite):
 
         pass
     def  draw(self,screen):
-        self._draw_buttons(screen)
+        self._draw_title(screen)
         self._draw_buttons(screen)
         pass
-
     def _draw_title(self,screen):
         text,rect = Text(fontsize=32)(u"2048 Game")
+        rect.topleft = (415,75)
+        screen.blit(text,rect)
+        text, rect = Text()(u"联网对抗版")
+        rect.topleft = (456,122)
+        screen.blit(text, rect)
 
         pass
     def _draw_buttons(self,screen):
-        for btn in self.btns.values():
+        for btn in self.btns:
             btn.draw(screen)
 
         pass
     pass
 
+def HomePage(screen,draw=None):
+    sur,rec = Text()(u"返回")
+    rec.topleft = (832,73)
+    screen.blit(sur,rec)
+    pass
+
+#######  todo: WebPage #############
+class WebPage(MySprite):
+    def __init__(self):
+        MySprite.__init__(self)
+        pass
+    def update(self):
+        pass
+    def update_state(self):
+        pass
+    def event(self,func=None):
+        pass
+    def draw(self,screen):
+        pass
+    pass
+####### ############# #############
+
+#######  todo: LocalPage #############
+
+class LocalPage(MySprite):
+    iDate = "date"
+    iSur = "Sur"
+    iRect = Rect(330,150,100,100)
+    def __init__(self):
+        MySprite.__init__(self)
+        self.board = [[0,0,0,0] for i in xrange(4)]
+        for i in xrange(4):
+            for j in xrange(4):
+                self.board[i][j] = {LocalPage.iDate:0,LocalPage.iSur:Block(100,100,color=GRAY)}
+                LocalPage.iRect.x += (100*i)
+                LocalPage.iRect.y += (100*j)
+                pass
+        pass
+    def update(self):
+        pass
+    def update_state(self):
+        pass
+    def event(self,func=None):
+        pass
+    def draw(self,screen):
+        for i in xrange(4):
+            for j in xrange(4):
+                b = self.board[i][j]
+                if b[LocalPage.iDate]:
+                    tSur,tRec = Text(fontcolor=BLACK)("{0}".format(b))
+                    tRec.x = (b[LocalPage.iRect].x -tRec.x)/2
+                    tRec.y = (b[LocalPage.iRect].y -tRec.y)/2
+                    oldSur = b[LocalPage.iSur]
+                    b[LocalPage.iSur].blit(tSur,tRec)
+                    #todo 还原  b[LocalPage.iSur]
+                    pass
+                screen.blit(b[LocalPage.iSur],b[LocalPage.iRect])
+        pass
+    pass
+
 if __name__ == '__main__':
     from pyclass import run
-    run(Button(MODEL_WEB).draw)
+    run(FirstPage().draw)
     pass
