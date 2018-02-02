@@ -5,6 +5,7 @@ from  pygame.locals import *
 from const_var import *
 from events import mEvents
 from MySprite import *
+import range_arr
 
 
 AREA = "AREA"
@@ -187,43 +188,88 @@ class WebPage(MySprite):
 
 #######  todo: LocalPage #############
 
-class LocalPage(MySprite):
+class Board(MySprite):
     iDate = "date"
     iSur = "Sur"
-    iRect = Rect(330,150,100,100)
+    iRect = "iRect"
+    key_map = { # PC 版映射，手机版要交换 2 和 8
+        BUTTON_UP:[K_UP,8],
+        BUTTON_DOWN:[K_DOWN,2],
+        BUTTON_LEFT:[K_LEFT,4],
+        BUTTON_RIGHT:[K_RIGHT,6],
+    }
+    # RealRect = Rect(330,150,100,100)
     def __init__(self):
         MySprite.__init__(self)
         self.board = [[0,0,0,0] for i in xrange(4)]
+        x=330
+        y=150
+        w=100
+        h=100
         for i in xrange(4):
             for j in xrange(4):
-                self.board[i][j] = {LocalPage.iDate:0,LocalPage.iSur:Block(100,100,color=GRAY)}
-                LocalPage.iRect.x += (100*i)
-                LocalPage.iRect.y += (100*j)
+                p1 = x + i*101
+                p2 = y + j*101
+                self.board[i][j] = {Board.iDate:0,Board.iSur:Block(w,h,color=GRAY).image,Board.iRect:Rect(p1,p2,w,h)}
                 pass
+        self.vBoard = range_arr.Array(range_arr.LEN_ARR)
         pass
     def update(self):
         pass
     def update_state(self):
         pass
     def event(self,func=None):
+        # nums = self._get_nums()   # 抽取 逻辑棋盘
+        # if mEvents.event.type == py.KEYDOWN:
+        #     if mEvents.event.key in  Board.key_map[BUTTON_UP]:
+        #         pass
+        #     elif mEvents.event.key in  Board.key_map[BUTTON_DOWN]:
+        #         pass
+        #     elif mEvents.event.key in  Board.key_map[BUTTON_LEFT]:
+        #         pass
+        #     elif mEvents.event.key in  Board.key_map[BUTTON_RIGHT]:
+        #         pass
+        #     pass
+        # todo 返回事件值
+        pass
+    def draw_board(self,screen):
+        for bls in self.board:
+            for b in bls:
+                if b[Board.iDate]:
+                    tSur, tsRect = Text(fontsize=40, fontcolor=BLACK)(u"{0}".format(b[Board.iDate]))
+                    tmp, trect = b[Board.iSur], b[Board.iRect]
+                    tsRect.x = (trect.w - tsRect.w) / 2
+                    tsRect.y = (trect.h - tsRect.h) / 2
+                    tmp.blit(tSur, tsRect)
+                    screen.blit(tmp, trect)
+                    pass
+                else:
+                    screen.blit(b[Board.iSur], b[Board.iRect])
         pass
     def draw(self,screen):
+        # [screen.blit(b[Board.iSur],b[Board.iRect])for bls in self.board for b in bls]
+        # self.board[0] = [2,4,6,8]
+        # self.board[1] = [16,32,64,128]
+        # self.board[2] = [256,512,1024,2048]
+        self.draw_board(screen)
+        pass
+    def _get_nums(self):
+        return [self.board[i][j][Board.iDate] for i in xrange(4) for j in xrange(4)]
+        pass
+    def _put_nums(self,nums):
         for i in xrange(4):
             for j in xrange(4):
-                b = self.board[i][j]
-                if b[LocalPage.iDate]:
-                    tSur,tRec = Text(fontcolor=BLACK)("{0}".format(b))
-                    tRec.x = (b[LocalPage.iRect].x -tRec.x)/2
-                    tRec.y = (b[LocalPage.iRect].y -tRec.y)/2
-                    oldSur = b[LocalPage.iSur]
-                    b[LocalPage.iSur].blit(tSur,tRec)
-                    #todo 还原  b[LocalPage.iSur]
-                    pass
-                screen.blit(b[LocalPage.iSur],b[LocalPage.iRect])
+                self.board[i][j][Board.iDate]=nums[j][i]
+        pass
+
+    def RunLoop(self,screen):
+        self.vBoard.init()
+        self._put_nums(self.vBoard)
+        self.event()
+        #　单次运行主体
         pass
     pass
-
 if __name__ == '__main__':
     from pyclass import run
-    run(FirstPage().draw)
+    run(Board().draw)
     pass

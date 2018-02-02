@@ -44,7 +44,11 @@ MODEL_BACKPACK = 0xF006  # 背包
 MODEL_STORE = 0xF007     # 商城
 MODEL_EXIT = 0xF008      # 退出按钮
 
-
+# 按钮
+BUTTON_UP = 0xB001
+BUTTON_DOWN = 0xB002
+BUTTON_LEFT = 0xB003
+BUTTON_RIGHT = 0xB004
 
 if __name__ == '__main__':
     pass
